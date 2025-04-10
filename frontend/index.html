@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MW3 - Crypto Hub</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #000;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: #111;
+        transition: left 0.3s ease;
+        padding-top: 20px;
+        z-index: 1000;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .sidebar a {
+        color: #aaa;
+        text-decoration: none;
+        padding: 15px 25px;
+        display: block;
+        font-size: 1.2rem;
+        transition: background-color 0.2s ease;
+      }
+
+      .sidebar a:hover {
+        background-color: #00ffe1;
+        color: #000;
+      }
+
+      .sidebar .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #00ffe1;
+      }
+
+      /* Content Styles */
+      .content {
+        margin-left: 0;
+        flex: 1;
+        transition: margin-left 0.3s ease;
+      }
+
+      .menu-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 1100;
+        color: #00ffe1;
+      }
+
+      header {
+        padding: 1.5rem 3rem;
+        background-color: #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #222;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo-area img {
+        height: 40px;
+      }
+
+      .logo-area h1 {
+        font-size: 1.8rem;
+        color: #00ffe1;
+        text-shadow: 0 0 5px #00ffe1, 0 0 10px #00ffe1;
+        letter-spacing: 1px;
+      }
+
+      nav a {
+        color: #aaa;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        font-size: 1rem;
+        transition: color 0.2s ease;
+      }
+
+      nav a:hover {
+        color: #00ffe1;
+        text-shadow: 0 0 5px #00ffe1;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .hero {
+        max-width: 700px;
+        margin-bottom: 3rem;
+      }
+
+      .hero h2 {
+        font-size: 3rem;
+        color: #00ffe1;
+        text-shadow: 0 0 8px #00ffe1;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: #bbb;
+      }
+
+      .web3-actions {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .web3-actions div {
+        background-color: #111;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 225, 0.1);
+        width: 200px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .web3-actions div:hover {
+        transform: scale(1.05);
+      }
+
+      .web3-actions h3 {
+        font-size: 1.6rem;
+        color: #00ffe1;
+        margin-bottom: 1rem;
+      }
+
+      .web3-actions button {
+        padding: 0.5rem 1rem;
+        background-color: #00ffe1;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .web3-actions button:hover {
+        background-color: #00e6cc;
+      }
+
+      .web3-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background-color: #111;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 225, 0.1);
+        width: 80%;
+        max-width: 900px;
+      }
+
+      .web3-section h3 {
+        font-size: 2rem;
+        color: #00ffe1;
+        margin-bottom: 1rem;
+      }
+
+      .web3-section p {
+        color: #bbb;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #000;
+        font-size: 0.9rem;
+        color: #777;
+        border-top: 1px solid #222;
+      }
+
+      /* Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar" id="sidebar">
+      <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+      <a href="#swap-nft-section">Swap NFTs</a>
+      <a href="#stake-assets-section">Stake Assets</a>
+      <a href="#governance-section">Governance</a>
+    </div>
+
+    <div class="content">
+      <header>
+        <div class="logo-area">
+          <img src="https://example.com/logo.png" alt="MW3 Logo" />
+          <h1>MW3</h1>
+        </div>
+        <nav>
+          <a href="#swap-nft-section">Swap NFTs</a>
+          <a href="#stake-assets-section">Stake Assets</a>
+          <a href="#governance-section">Governance</a>
+        </nav>
+      </header>
+
+      <main>
+        <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button>
+
+        <section class="hero">
+          <h2>Welcome to MW3</h2>
+          <p>Your gateway to the next-generation decentralized Web3 ecosystem. Manage your identity, assets, and reputation with ease.</p>
+        </section>
+
+        <section class="web3-actions">
+          <div>
+            <h3>Swap NFTs</h3>
+            <button onclick="swapNFT()">Swap Now</button>
+          </div>
+          <div>
+            <h3>Stake Assets</h3>
+            <button onclick="stakeAssets()">Start Staking</button>
+          </div>
+          <div>
+            <h3>Governance</h3>
+            <button onclick="participateInGovernance()">Participate</button>
+          </div>
+        </section>
+
+        <section class="web3-section" id="swap-nft-section">
+          <h3>Swap NFTs</h3>
+          <p>MW3 allows you to seamlessly swap your NFTs with other users in the ecosystem. Whether you're looking to trade art, collectibles, or in-game items, MW3 ensures secure, efficient, and fast NFT swaps. Easily connect your wallet and start trading instantly!</p>
+          <button onclick="swapNFT()">Swap Now</button>
+        </section>
+
+        <section class="web3-section" id="stake-assets-section">
+          <h3>Stake Assets</h3>
+          <p>Put your digital assets to work by staking them on MW3. With staking, you can earn rewards and yield over time while supporting the network. Stake your NFTs, tokens, or crypto assets with a few clicks and start earning today!</p>
+          <button onclick="stakeAssets()">Start Staking</button>
+        </section>
+
+        <section class="web3-section" id="governance-section">
+          <h3>Governance</h3>
+          <p>Participate in the governance of the MW3 platform and have your say in its future. Voting on proposals, helping to shape the direction of the ecosystem, and getting involved in decision-making processes are some of the benefits of being part of the MW3 governance structure.</p>
+          <button onclick="participateInGovernance()">Participate</button>
+        </section>
+      </main>
+
+      <footer>
+        © 2025 MW3. Built for the decentralized future.
+      </footer>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("open");
+
+        const content = document.querySelector(".content");
+        if (sidebar.classList.contains("open")) {
+          content.style.marginLeft = "250px";
+        } else {
+          content.style.marginLeft = "0";
+        }
+      }
+
+      // Fake Web3 functions for demonstration purposes
+      function swapNFT() {
+        alert("Swapping NFTs... (This is a placeholder function)");
+      }
+
+      function stakeAssets() {
+        alert("Staking your assets... (This is a placeholder function)");
+      }
+
+      function participateInGovernance() {
+        alert("Participating in governance... (This is a placeholder function)");
+      }
+    </script>
+  </body>
+</html>
